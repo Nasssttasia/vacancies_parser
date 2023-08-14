@@ -13,11 +13,8 @@ class GetInfoHH(JobApi):
     def __str__(self):
         return 'HeadHunter.ru'
 
-    def get_vacancies_api(self, **kwargs):
-        params = {}
-        for key, value in kwargs.items():
-            params[key] = value
-
+    def get_vacancies_api(self, key_word):
+        params = {'text': key_word}
         response = get(self._url, params=params)
 
         if response.status_code == 200:
@@ -28,3 +25,26 @@ class GetInfoHH(JobApi):
             print(response.status_code)
             return None
 
+
+    def get_formated_data(self, vacancies):
+        formatted_data = []
+        for vacancy in vacancies['items']:
+            salary_from, salary_to = None, None
+            if vacancy['salary']:
+                if vacancy['salary']['from']:
+                    salary_from = vacancy['salary']['from']
+                if vacancy['salary']['to']:
+                    salary_to = vacancy['salary']['to']
+
+            formatted_data.append({
+                'title': vacancy['name'],
+                'url' : vacancy['url'],
+                'salary_from' : salary_from,
+                'salary_to' : salary_to,
+                'requirement' : vacancy['snippet']['requirement']
+            })
+        '''суперджоб так же'''
+        return formatted_data
+
+# hh = GetInfoHH()
+# print(hh.get_vacancies_api())

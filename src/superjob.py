@@ -33,3 +33,6 @@ class GetInfoSJ(JobApi):
             print(response.status_code)
             return None
 
+
+# sj = GetInfoSJ()
+# print(sj.get_vacancies_api())
