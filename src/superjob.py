@@ -1,7 +1,7 @@
 import json
 
 from requests import get
-from src.abc.abc_job_api import JobApi
+from src.abc_api.abc_job_api import JobApi
 
 
 class GetInfoSJ(JobApi):
@@ -14,7 +14,23 @@ class GetInfoSJ(JobApi):
     def __str__(self):
         return 'HeadHunter.ru'
 
-    def get_vacancies_api(self, **kwargs):
+    def get_vacancies_api(self, key_word):
+        params = {'text': key_word}
+        headers = {
+            'X-Api-App-Id': self._api_key
+        }
+        response = get(self._url, headers=headers, params=params)
+        # print(response.url)
+        if response.status_code == 200:
+            data = response.text
+            data_dict = json.loads(data)
+            return data_dict
+        else:
+            print(response.status_code)
+            return None
+
+
+    """def get_vacancies_api(self, **kwargs):
         params = {}
         headers = {
             'X-Api-App-Id': self._api_key
@@ -31,8 +47,19 @@ class GetInfoSJ(JobApi):
             return data_dict
         else:
             print(response.status_code)
-            return None
+            return None"""
 
+    def get_formatted_data(self, vacancies):
+        formatted_data = []
+        for vacancy in vacancies['objects']:
+            formatted_data.append({
+                'title': vacancy['profession'],
+                'url': vacancy['link'],
+                'salary_from': vacancy['payment_from'],
+                'salary_to': vacancy['payment_to'],
+                'requirement': vacancy['candidat']
+            })
+        return formatted_data
 
 # sj = GetInfoSJ()
-# print(sj.get_vacancies_api())
+# print(sj.get_vacancies_api('Python'))

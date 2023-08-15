@@ -9,32 +9,22 @@ class Vacancies:
         self.requirement = requirement
 
     def __str__(self):
-        return f'{self.title}, {self.salary_to}'
-
+        return f'Должность: {self.title}\n' \
+               f'Ссылка на вакансию: {self.url}\n' \
+               f'Зарплата: {self.salary_from} - {self.salary_to} руб.\n' \
+               f'Требования: {self.requirement}\n'
 
     def __lt__(self, other):
-        return self.salary_from < other.salary
+        return self.salary_from < other.salary_from
 
     def __le__(self, other):
-        return self.salary <= other.salary
+        return self.salary_from <= other.salary_from
 
     def __gt__(self, other):
-        return self.salary > other.salary
+        return self.salary_from > other.salary_from
 
     def __ge__(self, other):
-        return self.salary >= other.salary
+        return self.salary_from >= other.salary_from
 
     def __eq__(self, other):
-        return self.salary == other.salary
-
-        '''валидировать данные, которыми инициализируются его атрибуты.?????'''
-
-
-
-'''  def attributes_from_data_sj(self):
-        title = self.get_vacancies_api['objects'][0]['profession']
-        url = self.get_vacancies_api['objects'][0]['link']
-        salary_from = self.get_vacancies_api['objects'][0]['payment_from']
-        salary_to = self.get_vacancies_api['objects'][0]['payment_to']
-        requirement = self.get_vacancies_api['objects'][0]['candidat']
-'''
+        return self.salary_from == other.salary_from

@@ -1,6 +1,5 @@
 import json
-
-from src.abc.abc_job_api import JobApi
+from src.abc_api.abc_job_api import JobApi
 from requests import get
 
 
@@ -25,8 +24,7 @@ class GetInfoHH(JobApi):
             print(response.status_code)
             return None
 
-
-    def get_formated_data(self, vacancies):
+    def get_formatted_data(self, vacancies):
         formatted_data = []
         for vacancy in vacancies['items']:
             salary_from, salary_to = None, None
@@ -38,13 +36,9 @@ class GetInfoHH(JobApi):
 
             formatted_data.append({
                 'title': vacancy['name'],
-                'url' : vacancy['url'],
-                'salary_from' : salary_from,
-                'salary_to' : salary_to,
-                'requirement' : vacancy['snippet']['requirement']
+                'url': vacancy['alternate_url'],
+                'salary_from': salary_from,
+                'salary_to': salary_to,
+                'requirement': vacancy['snippet']['requirement']
             })
-        '''суперджоб так же'''
         return formatted_data
-
-# hh = GetInfoHH()
-# print(hh.get_vacancies_api())
