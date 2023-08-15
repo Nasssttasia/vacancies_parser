@@ -15,7 +15,7 @@ class GetInfoSJ(JobApi):
         return 'HeadHunter.ru'
 
     def get_vacancies_api(self, key_word):
-        params = {'text': key_word}
+        params = {'keyword': key_word}
         headers = {
             'X-Api-App-Id': self._api_key
         }
